@@ -20,8 +20,8 @@ class Image(object):
 		Generate a list of coordinate pairs from dotted training image
 		"""
 		# read the Train and Train Dotted images
-		image_1 = cv2.imread("../TrainSmall2/TrainDotted/" + filename)
-		image_2 = cv2.imread("../TrainSmall2/Train/" + filename)
+		image_1 = cv2.imread(self.real_path + filename)
+		image_2 = cv2.imread(self.dotted_path + filename)
 		img1 = cv2.GaussianBlur(image_1, (5, 5), 0)
 		plt.imshow(img1)
 		# absolute difference between Train and Train Dotted
