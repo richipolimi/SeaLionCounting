@@ -1,0 +1,10 @@
+*.jpg
+*.csv
+bin/
+lib/
+include/
+TrainSmall2/
+pip-selfcheck.json
+code/test.py
+.Python
+.idea/
