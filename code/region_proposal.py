@@ -13,11 +13,11 @@ class RegionProposal(object):
     Initilize the object. the mode attribute refers to the selective
     search and can be either 'quality' or 'fast'
     """
-    def __init__(self, mode='quality', n_threads=1, patch_width=724, patch_height=516, overlapping=100):
+    def __init__(self, mode='quality', n_threads=1, chunk_width=724, chunk_height=516, overlapping=100):
         self.init_open_cv(n_threads)
         self.mode = mode
-        self.patch_width = patch_width
-        self.patch_height = patch_height
+        self.chunk_width = chunk_width
+        self.chunk_height = chunk_height
         self.overlapping = overlapping
 
     """
@@ -48,7 +48,7 @@ class RegionProposal(object):
     def generate_sub_images(self, img):
         images = []
         position = []
-        grid = self.generate_patch(img, self.patch_width, self.patch_height, self.overlapping)
+        grid = self.generate_patch(img, self.chunk_width, self.chunk_height, self.overlapping)
         for coord in grid:
             x, y, w, h = coord
             sub_img = img[y: y + h, x: x + w]
@@ -65,7 +65,7 @@ class RegionProposal(object):
         # Read image
         im = cv2.imread(image_path)
 
-        if(im.shape[0] > self.patch_height and im.shape[1] > self.patch_width):
+        if(im.shape[0] > self.chunk_height and im.shape[1] > self.chunk_width):
             images, position = self.generate_sub_images(im)
 
             n_cores = cpu_count()
