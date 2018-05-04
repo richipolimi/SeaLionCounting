@@ -17,7 +17,8 @@ class Image(object):
 
 	def generate_coordinates(self, filename):
 		"""
-		Generate a list of coordinate pairs from dotted training image
+		Generate a list of coordinate pairs from dotted training image.
+		Coordinates are relative to the top left of the image.
 		"""
 		# read the Train and Train Dotted images
 		image_1 = cv2.imread(self.real_path + filename)
