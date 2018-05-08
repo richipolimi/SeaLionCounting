@@ -4,10 +4,6 @@ from image import Image
 import os
 import sys
 
-
-
-
-
 def generate_sub_images(image_id, shape=(224,224), display=False):
     """
     Given an image id generate a list containing the small images of the
@@ -50,10 +46,6 @@ def generate_sub_images(image_id, shape=(224,224), display=False):
             cv2.waitKey(0)
 
     return sea_lion_list, background_list
-
-
-
-
 
 def generate_dataset(dataset_name, list_image_ids, shape=(224,224)):
     """ 
