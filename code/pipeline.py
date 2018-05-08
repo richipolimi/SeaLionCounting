@@ -30,7 +30,6 @@ class Pipeline(object):
             output = self.classifier.predict(pattern[None])
             if output > 0.5:
                 positives.append(box)
-        return positives
 
         blacklist = set()
         for combo in combinations(range(len(positives)), 2):
@@ -44,8 +43,8 @@ class Pipeline(object):
 
             x1, y1, w1, h1 = box1
             x2, y2, w2, h2 = box2
-            overlap_x = x1 + w1 - x2
-            overlapy_y = y1 + h1 - y2
+            overlap_x = max(0, min(x1+w1, x2+w2) - max(x1, x2))
+            overlapy_y = max(0, min(y1+h1, y2+h2) - max(y1, y2))
             overlap_area = overlap_x * overlapy_y
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
