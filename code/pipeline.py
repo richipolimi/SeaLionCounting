@@ -33,11 +33,13 @@ class Pipeline(object):
         return positives
 
         blacklist = set()
-        for combo in combinations(positives, 2):
-            box1 = combo[0]
-            box2 = combo[1]
+        for combo in combinations(range(len(positives)), 2):
+            box1 = positives[combo[0]]
+            box2 = positives[combo[1]]
 
-            if (box1 in blacklist or box2 in blacklist):
+            # check if one box is contained in the other
+
+            if (combo[0] in blacklist or combo[1] in blacklist):
                 continue
 
             x1, y1, w1, h1 = box1
@@ -48,8 +50,17 @@ class Pipeline(object):
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
                 if overlap_norm > 0.8:
-                    blacklist.add(box2)
-        return positives
+                    blacklist.add(combo[1])
+                else:
+                	overlap_norm = overlap_area / (w2 * h2)
+                	if overlap_norm > 0.8:
+                		blacklist.add(combo[0])
+        result = []
+        for i, positive in enumerate(positives):
+        	if not i in blacklist:
+        		result.append(positive)
+
+        return result
 
     def sea_lions_in_img(self, image_id):
         """ Counts the number of sea lions in image by looking at the dotted image. """
