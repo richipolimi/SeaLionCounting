@@ -10,3 +10,6 @@ code/test.py
 
 .Python
 .idea/code/__pycache__/image.cpython-35.pyc
+code/config.py
+Model/2layers.mod
+.DS_Store
