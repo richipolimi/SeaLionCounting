@@ -9,4 +9,4 @@ pip-selfcheck.json
 code/test.py
 
 .Python
-.idea/
+.idea/code/__pycache__/image.cpython-35.pyc
