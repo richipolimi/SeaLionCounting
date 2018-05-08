@@ -28,7 +28,7 @@ class Image(object):
 
     
     def get_boxes(self):
-    """ Generates a list of Box instances from non-dotted training image """
+        """ Generates a list of Box instances from non-dotted training image """
 
         # generate boxes if they are not already present in a file
         boxes_file = Path(self.boxes_path)
@@ -42,7 +42,7 @@ class Image(object):
 
 
     def get_coordinates(self):
-    """ Generate a list of coordinate pairs from dotted training image """
+        """ Generate a list of coordinate pairs from dotted training image """
     
         # generate boxes if they are not already present in a file
         coord_file = Path(self.coord_path)
@@ -123,13 +123,5 @@ class Image(object):
         return np.sort(np.setdiff1d(all_imgs, mismatched))
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     im = Image('42')
-   # print(im.get_boxes().shape)
     print(im.get_coordinates().shape)
-=======
-    #im = Image(41)
-    #print(im.get_boxes().shape)
-    #print(im.get_coordinates().shape)
-    print(Image.get_dataset())
->>>>>>> 2cd86d7db5cd81663cb68073a4f2bf6522240c37
