@@ -96,13 +96,12 @@ class Image(object):
                 else:
                     res.append([x, y, cls])
 
-            if(len(res) > 0):
-                np.savetxt(self.coord_path, np.array(res), fmt='%d')
-            else:
-                print("Coordinate file not generated: image %d" % self.image_id)
+            np.savetxt(self.coord_path, np.array(res), fmt='%d')
 
         # read file
         coord = np.loadtxt(self.coord_path, dtype=int)
+        if coord.ndim == 1 and coord.size != 0:
+            coord = np.expand_dims(coord, axis=0)
         return coord
 
     """
