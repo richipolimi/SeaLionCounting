@@ -45,7 +45,7 @@ class Pipeline(object):
             x2, y2, w2, h2 = box2
             overlap_x = max(0, min(x1+w1, x2+w2) - max(x1, x2))
             overlap_y = max(0, min(y1+h1, y2+h2) - max(y1, y2))
-            overlap_area = overlap_x * overlapy_y
+            overlap_area = overlap_x * overlap_y
 
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
@@ -76,5 +76,4 @@ if __name__ == "__main__":
     pipeline = Pipeline(model)
     positives = pipeline.evaluate_img(9999, (50, 50))
 
-    rp.display(Image(9999).real_path, np.vstack(positives), n=10)
-    print(len(positives))
+    rp.display(Image(9999).real_path, np.vstack(positives), n=len(positives))
