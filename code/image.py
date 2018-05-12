@@ -19,16 +19,36 @@ class Image(object):
     rp = RegionProposal()
     MismatchedImg_file_path = DATASET_DIR + "MismatchedTrainImages.txt"
 
-    def __init__(self, image_id):
+    def __init__(self, image_id, dataset):
+        """
+        Args:
+            image_id: ID of the image.
+            dataset: "TRAIN" or "TEST", determines which
+            folder to look inside.
+        """
         self.image_id = image_id
-        self.real_path = TRAIN_DIR + str(image_id) + ".jpg"  # Path to the non-dotted training image
-        self.dotted_path = TRAIN_DOTTED_DIR + str(image_id) + ".jpg"  # Path to the dotted training image
+
+        if dataset == "TRAIN":
+            real_dir = TRAIN_DIR
+            dotted_dir = TRAIN_DOTTED_DIR
+        elif dataset == "TEST":
+            real_dir = TEST_DIR
+            dotted_dir = TEST_DOTTED_DIR
+        else:
+            raise ValueError("dataset argument can only be 'TRAIN' or 'TEST'")
+
+        self.real_path = real_dir + str(image_id) + ".jpg"  # Path to the non-dotted training image
+        self.dotted_path = dotted_dir + str(image_id) + ".jpg"  # Path to the dotted training image
         self.boxes_path = BOXES_DIR + str(image_id) + '.box'  # Path to the boxes file
-        self.coord_path = COORDINATES_DIR + str(image_id) + ".coor"  # Path to the boxes file
+        self.coord_path = COORDINATES_DIR + str(image_id) + ".coor"  # Path to the coordinates file
 
     
     def get_boxes(self):
-        """ Generates a list of Box instances from non-dotted training image """
+        """ 
+        Generates a list of box vectors from non-dotted training image. 
+        Returns:
+            # TODO: show structure of returned numpy array here.
+        """
 
         # generate boxes if they are not already present in a file
         boxes_file = Path(self.boxes_path)
@@ -42,7 +62,7 @@ class Image(object):
 
 
     def get_coordinates(self):
-        """ Generate a list of coordinate pairs from dotted training image """
+        """ Generate a list of coordinate pairs from dotted image """
     
         # generate boxes if they are not already present in a file
         coord_file = Path(self.coord_path)
@@ -123,5 +143,5 @@ class Image(object):
         return np.sort(np.setdiff1d(all_imgs, mismatched))
 
 if __name__ == '__main__':
-    im = Image('42')
+    im = Image('42', "TRAIN")
     print(im.get_coordinates().shape)

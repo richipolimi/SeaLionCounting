@@ -5,6 +5,9 @@ import keras
 import numpy as np
 from filter_box import filter_by_size
 from region_proposal import RegionProposal
+from config import *
+
+import os
 
 
 class Pipeline(object):
@@ -15,9 +18,9 @@ class Pipeline(object):
     def evaluate_img(self, image_id, shape):
         """
         Generate all possible boxes for image and
-        return sea lion count for box.
+        return boxes for image that contain a sea lion.
         """
-        img = Image(image_id)
+        img = Image(image_id, "TEST")
 
         image = cv2.imread(img.real_path)
         boxes = img.get_boxes()
@@ -65,23 +68,52 @@ class Pipeline(object):
 
         return result
 
-    def sea_lions_in_img(self, image_id):
+    def sea_lions_in_img(self, image_id, dataset):
         """
         Counts the number of sea lions in image
         by looking at the dotted image.
+        Args:
+            dataset: "TRAIN" or "TEST"
         """
-        img = Image(image_id)
+        img = Image(image_id, dataset)
+        coords = img.get_coordinates() # TODO: Filter out non-counting classes
+        no_of_lions = len(coords)
+        return no_of_lions
 
-        img.get_coordinates()
+    def mse(self, dataset, shape = (50, 50)):
+        """ 
+        Calculates mean squared error over images in dataset. 
+        Args:
+            dataset: "TEST" or "TRAIN"
+        """
+        sum_squares = 0
+        images = 0
+        if dataset == "TEST":
+            dataset_path = TEST_DIR
+        elif dataset == "TRAIN":
+            dataset_path = TRAIN_DIR
+        # For each image ID in dataset
+        for file in os.scandir(dataset_path):
+            image_id, ext = os.path.splitext(file.name)
+            if (ext == ".jpg"):
+                img = Image(image_id, dataset)
+                images += 1
+                # Compare sum for image with sea_lions_in_img() result. That is the error
+                output_count = len(self.evaluate_img(image_id, shape))
+                target_count = self.sea_lions_in_img()
+                error = output_count - target_count
+                # Square the error and add to total
+                squared_error = error ** 2
+                sum_squares += squared_error
 
-    def mse(self, dataset_path):
-        """ Calculates mean squared error over images in dataset. """
-        pass
-
+        # Divide by the number of image IDs
+        mse = sum_squares / images
+        return mse
 
 if __name__ == "__main__":
     rp = RegionProposal()
     model = keras.models.load_model("../Model/2layers.mod")
     pipeline = Pipeline(model)
-    positives = pipeline.evaluate_img(9999, (50, 50))
-    rp.display(Image(9999).real_path, np.vstack(positives), n=len(positives))
+    positives = pipeline.evaluate_img(41, (50, 50))
+    rp.display(Image(41).real_path, np.vstack(positives), n=len(positives))
+    #pipeline.mse("../TrainSmall2/Train")
