@@ -84,10 +84,4 @@ if __name__ == "__main__":
     model = keras.models.load_model("../Model/2layers.mod")
     pipeline = Pipeline(model)
     positives = pipeline.evaluate_img(9999, (50, 50))
-
-<<<<<<< HEAD
-    rp.display(Image(9999).real_path, np.vstack(positives), n=10)
-    print(len(positives))
-=======
     rp.display(Image(9999).real_path, np.vstack(positives), n=len(positives))
->>>>>>> e1929395cf822e6aac8eb27f4ba31198abf64b43
