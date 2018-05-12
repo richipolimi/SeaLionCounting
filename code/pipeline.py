@@ -60,11 +60,11 @@ class Pipeline(object):
 
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
-                if overlap_norm > 0.9:
+                if overlap_norm > 0.3:
                     blacklist.add(combo[1])
                 else:
                     overlap_norm = overlap_area / (w2 * h2)
-                    if overlap_norm > 0.9:
+                    if overlap_norm > 0.3:
                         blacklist.add(combo[0])
         result = []
         for i, positive in enumerate(positives):
@@ -73,7 +73,7 @@ class Pipeline(object):
 
         return result
 
-    def sea_lions_in_img(self, image):
+    def sea_lions_in_img(self, image_obj):
         """
         Counts the number of sea lions in image
         by looking at the dotted image.
@@ -81,7 +81,7 @@ class Pipeline(object):
             image: Image instance
         """
         
-        coords = img.get_coordinates() 
+        coords = image_obj.get_coordinates()
         no_of_lions = 0
         for coord in coords:
             _, _, dot_class = coord
@@ -89,7 +89,7 @@ class Pipeline(object):
                 no_of_lions += 1
         return no_of_lions
 
-    def mse(self, dataset, shape = (50, 50)):
+    def mse(self, dataset, shape=(50, 50)):
         """ 
         Calculates mean squared error over images in dataset. 
         Args:
@@ -110,7 +110,7 @@ class Pipeline(object):
                 images += 1
                 # Compare sum for image with sea_lions_in_img() result. That is the error
                 output_count = len(self.evaluate_img(img, shape))
-                target_count = self.sea_lions_in_img(img, dataset)
+                target_count = self.sea_lions_in_img(img)
                 error = output_count - target_count
                 # Square the error and add to total
                 squared_error = error ** 2
@@ -124,6 +124,7 @@ if __name__ == "__main__":
     rp = RegionProposal()
     model = keras.models.load_model("../Model/2layers.mod")
     pipeline = Pipeline(model)
-    positives = pipeline.evaluate_img(41, (50, 50))
-    rp.display(Image(41).real_path, np.vstack(positives), n=len(positives))
-    #pipeline.mse("../TrainSmall2/Train")
+    image_obj = Image(9999, "TRAIN")
+    positives = pipeline.evaluate_img(image_obj, (50, 50))
+    rp.display(image_obj.real_path, np.vstack(positives), n=len(positives))
+    print(pipeline.mse("TEST"))

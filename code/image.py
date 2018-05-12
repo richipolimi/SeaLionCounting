@@ -19,7 +19,7 @@ class Image(object):
     rp = RegionProposal()
     MismatchedImg_file_path = DATASET_DIR + "MismatchedTrainImages.txt"
 
-    def __init__(self, image_id, dataset):
+    def __init__(self, image_id, dataset="TRAIN"):
         """
         Args:
             image_id: ID of the image.
