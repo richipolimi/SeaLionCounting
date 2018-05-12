@@ -15,12 +15,12 @@ class Pipeline(object):
         """ Takes classifier and """
         self.classifier = classifier
 
-    def evaluate_img(self, image_id, shape):
+    def evaluate_img(self, image_id, shape, dataset):
         """
         Generate all possible boxes for image and
         return boxes for image that contain a sea lion.
         """
-        img = Image(image_id, "TEST")
+        img = Image(image_id, dataset)
 
         image = cv2.imread(img.real_path)
         boxes = img.get_boxes()
@@ -103,8 +103,8 @@ class Pipeline(object):
                 img = Image(image_id, dataset)
                 images += 1
                 # Compare sum for image with sea_lions_in_img() result. That is the error
-                output_count = len(self.evaluate_img(image_id, shape))
-                target_count = self.sea_lions_in_img()
+                output_count = len(self.evaluate_img(image_id, shape, dataset))
+                target_count = self.sea_lions_in_img(image_id, dataset)
                 error = output_count - target_count
                 # Square the error and add to total
                 squared_error = error ** 2
