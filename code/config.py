@@ -1,4 +1,4 @@
-DATASET_DIR = "/Users/sahandzarrinkoub/Documents/Programming/DD2424DeepLearning/project/repo/SeaLionCounting/TrainSmall2/"
+DATASET_DIR = "//home/riccardo/git/SeaLionCounting/dataset/"
 TRAIN_DIR = DATASET_DIR + "Train/"
 TRAIN_DOTTED_DIR = DATASET_DIR + "TrainDotted/"
 COORDINATES_DIR = DATASET_DIR + "Coordinates/"

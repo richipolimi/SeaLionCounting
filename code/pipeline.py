@@ -49,11 +49,11 @@ class Pipeline(object):
 
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
-                if overlap_norm > 0.9:
+                if overlap_norm > 0.3:
                     blacklist.add(combo[1])
                 else:
                 	overlap_norm = overlap_area / (w2 * h2)
-                	if overlap_norm > 0.9:
+                	if overlap_norm > 0.3:
                 		blacklist.add(combo[0])
         result = []
         for i, positive in enumerate(positives):
@@ -75,5 +75,5 @@ if __name__ == "__main__":
     model = keras.models.load_model("../Model/2layers.mod")
     pipeline = Pipeline(model)
     positives = pipeline.evaluate_img(9999, (50, 50))
-
+    print(len(positives))
     rp.display(Image(9999).real_path, np.vstack(positives), n=len(positives))
