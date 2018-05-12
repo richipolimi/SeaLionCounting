@@ -77,7 +77,11 @@ class Pipeline(object):
         """
         img = Image(image_id, dataset)
         coords = img.get_coordinates() # TODO: Filter out non-counting classes
-        no_of_lions = len(coords)
+        no_of_lions = 0
+        for coord in coords:
+            _, _, dot_class = coord
+            if not dot_class == "GREEN":
+                no_of_lions += 1
         return no_of_lions
 
     def mse(self, dataset, shape = (50, 50)):

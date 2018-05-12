@@ -97,24 +97,24 @@ class Image(object):
                 # get the color of the pixel from Train Dotted in the center of the blob
                 b, g, R = img1[y][x][:]
 
-                cls = UNKNOWN
+                dot_class = UNKNOWN
                 # decision tree to pick the class of the blob by looking at the color in Train Dotted
                 if R > 210 and b < 25 and g < 25:  # RED
-                    cls = RED
+                    dot_class = RED
                 elif R > 210 and b > 225 and g < 25:  # MAGENTA
-                    cls = MAGENTA
+                    dot_class = MAGENTA
                 elif R < 75 and b < 50 and 150 < g < 200:  # GREEN
-                    cls = GREEN
+                    dot_class = GREEN
                 elif R < 75 and 140 < b < 210 and g < 75:  # BLUE
-                    cls = BLUE
+                    dot_class = BLUE
                 elif 60 < R < 120 and b < 50 and g < 75:  # BROWN
-                    cls = BROWN
+                    dot_class = BROWN
 
-                if cls == UNKNOWN:
+                if dot_class == UNKNOWN:
                     print("Proposed dot could not be classified in image %d" % self.image_id)
                     #raise RuntimeError("Proposed dot could not be classified")
                 else:
-                    res.append([x, y, cls])
+                    res.append([x, y, dot_class])
 
             np.savetxt(self.coord_path, np.array(res), fmt='%d')
 
