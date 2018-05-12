@@ -76,7 +76,7 @@ class Pipeline(object):
             dataset: "TRAIN" or "TEST"
         """
         img = Image(image_id, dataset)
-        coords = img.get_coordinates() # TODO: Filter out non-counting classes
+        coords = img.get_coordinates() 
         no_of_lions = 0
         for coord in coords:
             _, _, dot_class = coord
