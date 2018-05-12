@@ -19,6 +19,9 @@ class Pipeline(object):
         """
         Generate all possible boxes for image and
         return boxes for image that contain a sea lion.
+        Args:
+            image: Image instance, the image to evaluate
+            shape: the shape of the small images (boxes) sent to classifier
         """
 
         image = cv2.imread(img.real_path)
@@ -73,7 +76,6 @@ class Pipeline(object):
         by looking at the dotted image.
         Args:
             image: Image instance
-            dataset: "TRAIN" or "TEST"
         """
         
         coords = img.get_coordinates() 
