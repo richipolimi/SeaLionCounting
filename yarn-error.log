@@ -1,0 +1,32 @@
+Arguments: 
+  /Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/bin/node /Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/bin/yarn dev
+
+PATH: 
+  /anaconda3/envs/SeaLionCounting/bin:/Users/sahandzarrinkoub/apache-maven-3.5.3/bin:/Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/bin:~/.npm/bin:HOME/.npm-packages/bin:/anaconda3/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/bin/mongod:/Users/sahandzarrinkoub/Library/Python/3.6/bin:/Users/sahandzarrinkoub/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.11.1
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find a package.json file in "/Users/sahandzarrinkoub/Documents/Programming/DD2424-DEEP-LEARNING/project/repo/SeaLionCounting"
+      at new MessageError (/Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/lib/node_modules/yarn/lib/cli.js:186:110)
+      at /Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/lib/node_modules/yarn/lib/cli.js:40048:15
+      at Generator.next (<anonymous>)
+      at step (/Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /Users/sahandzarrinkoub/.nvm/versions/node/v9.11.1/lib/node_modules/yarn/lib/cli.js:109:13
+      at <anonymous>

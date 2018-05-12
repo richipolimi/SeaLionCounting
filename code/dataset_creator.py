@@ -4,11 +4,12 @@ from image import Image
 import os
 import sys
 
-def generate_sub_images(image_id, shape=(224,224), display=False):
+
+def generate_sub_images(image_id, shape=(224, 224), display=False):
     """
     Given an image id generate a list containing the small images of the
     sea lions and a list containig just background. The number of images
-    in each list is the same and equal to the number of sealions images 
+    in each list is the same and equal to the number of sealions images
     generated.
     """
     image = Image(image_id)
@@ -47,12 +48,13 @@ def generate_sub_images(image_id, shape=(224,224), display=False):
 
     return sea_lion_list, background_list
 
-def generate_dataset(dataset_name, list_image_ids, shape=(224,224)):
-    """ 
-    Given a name of dataset, a list of image ids and the shape of the image
-    generate a new dataset. 
+
+def generate_dataset(dataset_name, list_image_ids, shape=(224, 224)):
     """
-    
+    Given a name of dataset, a list of image ids and the shape of the image
+    generate a new dataset.
+    """
+
     # generate the folder of the dataset if not present
     dataset_path = DATASET_DIR + dataset_name
     if os.path.exists(dataset_path):
@@ -88,10 +90,11 @@ def generate_dataset(dataset_name, list_image_ids, shape=(224,224)):
 
     np.save(X_path, np.vstack(X))
 
+
 def generate_boxes(image_name_list):
     """
     Given a list if integer representing the image_id generate all
-    the possible boxes and store them into a file. If the file 
+    the possible boxes and store them into a file. If the file
     already exist does nothing.
     """
     for image_name in tqdm(image_name_list):
@@ -101,14 +104,15 @@ def generate_boxes(image_name_list):
 
 def generate_coordinates(image_name_list):
     """
-    Given a list if integer representing the image_id generate all
-    the possible coordinates and store them into a file. If the file 
-    already exist does nothing.
+    Given a list of integers representing the image_id, generate all
+    the possible coordinates and store them into a file. If the file
+    already exists: do nothing.
     """
 
     for image_name in tqdm(image_name_list):
         im = Image(image_name)
         im.get_coordinates()
+
 
 def image2file(dataset_name, list_image_ids, shape):
     """
@@ -119,7 +123,8 @@ def image2file(dataset_name, list_image_ids, shape):
 
     # generate the file with the label
     file_path = dataset_path + '/X'
-    X = np.zeros(((len(list_image_ids)), shape[0] * shape[1] * 3), dtype=np.uint8)
+    X = np.zeros(((len(list_image_ids)), shape[0] * shape[1] * 3),
+        dtype=np.uint8)
 
     for i, image_id in tqdm(enumerate(list_image_ids)):
         img_path = dataset_path + '/' + str(image_id) + '.jpg'
@@ -157,4 +162,3 @@ if __name__ == '__main__':
                 num_images = int(sys.argv[3])
                 size = int(sys.argv[4])
                 generate_dataset(name, Image.get_dataset()[0:num_images], (size, size))
-

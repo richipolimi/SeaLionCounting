@@ -91,7 +91,7 @@ class Image(object):
                     cls = BROWN
 
                 if cls == UNKNOWN:
-                    print("Proposed dot could not be classified, image %d" % self.image_id)
+                    print("Proposed dot could not be classified in image %d" % self.image_id)
                     #raise RuntimeError("Proposed dot could not be classified")
                 else:
                     res.append([x, y, cls])

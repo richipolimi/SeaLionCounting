@@ -6,15 +6,18 @@ import numpy as np
 from filter_box import filter_by_size
 from region_proposal import RegionProposal
 
+
 class Pipeline(object):
     def __init__(self, classifier):
         """ Takes classifier and """
         self.classifier = classifier
 
     def evaluate_img(self, image_id, shape):
-        """ Generate all possible boxes for image and return sea lion count for box. """
+        """
+        Generate all possible boxes for image and
+        return sea lion count for box.
+        """
         img = Image(image_id)
-
 
         image = cv2.imread(img.real_path)
         boxes = img.get_boxes()
@@ -43,32 +46,38 @@ class Pipeline(object):
 
             x1, y1, w1, h1 = box1
             x2, y2, w2, h2 = box2
-            overlap_x = max(0, min(x1+w1, x2+w2) - max(x1, x2))
-            overlap_y = max(0, min(y1+h1, y2+h2) - max(y1, y2))
-            overlap_area = overlap_x * overlapy_y
+            overlap_x = max(0, min(x1 + w1, x2 + w2) - max(x1, x2))
+            overlap_y = max(0, min(y1 + h1, y2 + h2) - max(y1, y2))
+            overlap_area = overlap_x * overlap_y
 
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
                 if overlap_norm > 0.9:
                     blacklist.add(combo[1])
                 else:
-                	overlap_norm = overlap_area / (w2 * h2)
-                	if overlap_norm > 0.9:
-                		blacklist.add(combo[0])
+                    overlap_norm = overlap_area / (w2 * h2)
+                    if overlap_norm > 0.9:
+                        blacklist.add(combo[0])
         result = []
         for i, positive in enumerate(positives):
-        	if not i in blacklist:
-        		result.append(positive)
+            if i not in blacklist:
+                result.append(positive)
 
         return result
 
     def sea_lions_in_img(self, image_id):
-        """ Counts the number of sea lions in image by looking at the dotted image. """
-        pass
+        """
+        Counts the number of sea lions in image
+        by looking at the dotted image.
+        """
+        img = Image(image_id)
+
+        img.get_coordinates()
 
     def mse(self, dataset_path):
         """ Calculates mean squared error over images in dataset. """
         pass
+
 
 if __name__ == "__main__":
     rp = RegionProposal()
