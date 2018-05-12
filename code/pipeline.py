@@ -12,7 +12,10 @@ import os
 
 class Pipeline(object):
     def __init__(self, classifier):
-        """ Takes classifier and """
+        """
+        Args:
+            classifier: Keras model that classifies boxes
+        """
         self.classifier = classifier
 
     def evaluate_img(self, image, shape):
@@ -91,6 +94,7 @@ class Pipeline(object):
         Calculates mean squared error over images in dataset. 
         Args:
             dataset: "TEST" or "TRAIN"
+            shape: shape of boxes to be classified
         """
         sum_squares = 0
         images = 0
