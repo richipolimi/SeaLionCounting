@@ -27,7 +27,7 @@ class Pipeline(object):
             shape: the shape of the small images (boxes) sent to classifier
         """
 
-        image = cv2.imread(img.real_path)
+        image = cv2.imread(image.real_path)
         boxes = image.get_boxes()
         positives = []
 
