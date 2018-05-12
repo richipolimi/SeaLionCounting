@@ -18,7 +18,7 @@ class Pipeline(object):
         """
         self.classifier = classifier
 
-    def evaluate_img(self, image, shape):
+    def evaluate_img(self, image_obj, shape):
         """
         Generate all possible boxes for image and
         return boxes for image that contain a sea lion.
@@ -27,8 +27,8 @@ class Pipeline(object):
             shape: the shape of the small images (boxes) sent to classifier
         """
 
-        image = cv2.imread(image.real_path)
-        boxes = image.get_boxes()
+        image = cv2.imread(image_obj.real_path)
+        boxes = image_obj.get_boxes()
         positives = []
 
         boxes, _ = filter_by_size(boxes, 30, 100)
