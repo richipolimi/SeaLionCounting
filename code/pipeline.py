@@ -11,12 +11,14 @@ import os
 
 
 class Pipeline(object):
-    def __init__(self, classifier):
+    def __init__(self, classifier, class_threshold=0.85, overlapping_threshold=0.3):
         """
         Args:
             classifier: Keras model that classifies boxes
         """
         self.classifier = classifier
+        self.class_threshold = class_threshold
+        self.overlapping_threshold = overlapping_threshold
 
     def evaluate_img(self, image_obj, shape):
         """
@@ -39,7 +41,7 @@ class Pipeline(object):
             crop_img = cv2.resize(sub_img, shape)
             pattern = crop_img.ravel().astype(np.float64) / 255
             output = self.classifier.predict(pattern[None])
-            if output > 0.5:
+            if output > self.class_threshold:
                 positives.append(box)
 
         blacklist = set()
@@ -60,11 +62,11 @@ class Pipeline(object):
 
             if overlap_area > 0:
                 overlap_norm = overlap_area / (w1 * h1)
-                if overlap_norm > 0.3:
+                if overlap_norm > self.overlapping_threshold:
                     blacklist.add(combo[1])
                 else:
                     overlap_norm = overlap_area / (w2 * h2)
-                    if overlap_norm > 0.3:
+                    if overlap_norm > self.overlapping_threshold:
                         blacklist.add(combo[0])
         result = []
         for i, positive in enumerate(positives):
@@ -123,8 +125,9 @@ class Pipeline(object):
 if __name__ == "__main__":
     rp = RegionProposal()
     model = keras.models.load_model("../Model/2layers.mod")
-    pipeline = Pipeline(model)
-    image_obj = Image(9999, "TRAIN")
+    pipeline = Pipeline(model, overlapping_threshold=0.9)
+    image_obj = Image(850, "TEST")
     positives = pipeline.evaluate_img(image_obj, (50, 50))
     rp.display(image_obj.real_path, np.vstack(positives), n=len(positives))
-    print(pipeline.mse("TEST"))
+    #pipeline = Pipeline(model, overlapping_threshold=0.3)
+    #print(pipeline.mse("TEST"))
