@@ -134,6 +134,14 @@ def image2file(dataset_name, list_image_ids, shape):
     np.save(file_path, X)
 
 
+def create_test_image(list_image_ids):
+    """
+    Copy the images in list_image_ids into the TEST folder
+    """
+    for img_id in list_image_ids:
+        im = cv2.imread(Image(img_id).real_path)
+        cv2.imwrite(TEST_DIR + str(img_id) + ".jpg", im)
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Expected an argument: -c, -b, -i2f or -d")
