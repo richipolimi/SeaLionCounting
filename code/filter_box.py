@@ -204,7 +204,7 @@ def keep_according_color(rects, coords, n=1):
 
 
 
-def keep_the_furthest(rects, coords, min_dist=75):
+def keep_the_furthest(rects, coords, min_dist=150, stop_at=50):
     """
     Keep only the boxes that are distance from any dot.
     """
@@ -225,6 +225,9 @@ def keep_the_furthest(rects, coords, min_dist=75):
 
         if np.min(distance) > min_dist:
             save_list = np.append(save_list, i)
+
+        if save_list.size >= stop_at:
+            break
 
     save_list = np.unique(save_list)
     return rects[save_list], np.delete(rects, save_list, axis=0)

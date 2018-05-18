@@ -19,10 +19,12 @@ def generate_sub_images(image_id, shape=(224, 224), display=False):
 
     boxes, _ = filter_by_size(boxes, 20, 100)
     #boxes_bg, _ = keep_n_dots(boxes, coords, n=0)
-    boxes_bg, _ = keep_the_furthest(boxes, coords)
     boxes_sl, _ = keep_one_dot(boxes, coords, kids_allowed=True)
     boxes_sl, _ = keep_the_closest(boxes_sl, coords, n=4, max_dist=0.35)
     boxes_sl, _ = keep_according_color(boxes_sl, coords, n=1)
+
+    random_indices = np.random.permutation(boxes.shape[0])
+    boxes_bg, _ = keep_the_furthest(boxes[random_indices], coords, stop_at=boxes_sl.shape[0])
 
     sea_lion_list = []
     background_list = []
@@ -144,6 +146,7 @@ def create_test_image(list_image_ids):
         cv2.imwrite(TEST_DIR + str(img_id) + ".jpg", im)
 
 if __name__ == '__main__':
+    generate_dataset('DS3', [41], (50, 50))
     if len(sys.argv) < 2:
         print("Expected an argument: -c, -b, -i2f or -d")
     else:
