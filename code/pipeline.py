@@ -3,9 +3,10 @@ import cv2
 from itertools import combinations
 import keras
 import numpy as np
-from filter_box import filter_by_size
+from filter_box import filter_by_size, keep_one_dot, keep_the_closest
 from region_proposal import RegionProposal
 from config import *
+from tqdm import tqdm
 
 import os
 
@@ -91,6 +92,29 @@ class Pipeline(object):
                 no_of_lions += 1
         return no_of_lions
 
+    def evaluate_recall(image_ids):
+        """
+        Compute the recall of the region proposal as number of sealions
+        wrapped by at least one box divided by total number of sealions
+        (TP / TP + FP)
+        :param image_ids: list of images ids
+        :return: the recall score
+        """
+        recall = []
+        for id in tqdm(image_ids):
+            image = Image(id)
+            boxes = image.get_boxes()
+            coord = image.get_coordinates()
+
+            # get the true positive
+            boxes, _ = filter_by_size(boxes, 20, 100)
+            boxes, _ = keep_one_dot(boxes, coord,kids_allowed=True)
+            boxes, _ = keep_the_closest(boxes, coord)
+
+            # compute recall
+            recall.append(boxes.shape[0]/coord.shape[0])
+        return np.mean(recall)
+
     def mse(self, dataset, shape=(50, 50)):
         """ 
         Calculates mean squared error over images in dataset. 
@@ -123,11 +147,14 @@ class Pipeline(object):
         return mse
 
 if __name__ == "__main__":
-    rp = RegionProposal()
+    #rp = RegionProposal()
+    #model = keras.models.load_model("../Model/2layers.mod")
+    #pipeline = Pipeline(model, overlapping_threshold=0.9)
+    #image_obj = Image(850, "TEST")
+    #positives = pipeline.evaluate_img(image_obj, (50, 50))
+    #rp.display(image_obj.real_path, np.vstack(positives), n=len(positives))
+
     model = keras.models.load_model("../Model/2layers.mod")
-    pipeline = Pipeline(model, overlapping_threshold=0.9)
-    image_obj = Image(850, "TEST")
-    positives = pipeline.evaluate_img(image_obj, (50, 50))
-    rp.display(image_obj.real_path, np.vstack(positives), n=len(positives))
-    #pipeline = Pipeline(model, overlapping_threshold=0.3)
-    #print(pipeline.mse("TEST"))
+    pipeline = Pipeline(model, overlapping_threshold=0.3)
+    print(pipeline.mse("TEST"))
+

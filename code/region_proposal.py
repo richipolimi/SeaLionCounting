@@ -164,10 +164,9 @@ class RegionProposal(object):
         cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    image_path = TRAIN_DIR + "selection_search1.jpg"
-    boxes_path = BOXES_DIR + "selection_search1.box"
+    image_path = TRAIN_DIR + "9999.jpg"
+    boxes_path = BOXES_DIR + "9999.box"
     rp = RegionProposal()
-    print(image_path)
     rects = rp.generate_boxes(image_path)
     np.savetxt(boxes_path, rects, fmt='%d')
     rp.display(image_path, rects)

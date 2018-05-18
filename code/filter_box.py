@@ -202,13 +202,39 @@ def keep_according_color(rects, coords, n=1):
     save_list = np.unique(save_list)
     return rects[save_list], np.delete(rects, save_list, axis=0)
 
-"""
-return a new set of rectangles that is placed in the 
-center of the dot
-"""
 
+
+def keep_the_furthest(rects, coords, min_dist=75):
+    """
+    Keep only the boxes that are distance from any dot.
+    """
+
+    save_list = np.array([], dtype=np.uint32)
+    for i, rect in enumerate(rects):
+        distance = np.array([])
+
+        for cord in coords:
+            x, y, w, h = rect
+            x0, y0, _ = cord
+
+            center_x = x + w/2.0
+            center_y = y + h/2.0
+            dist = np.sqrt((center_x-x0)**2 + (center_y-y0)**2)
+
+            distance = np.append(distance, dist)
+
+        if np.min(distance) > min_dist:
+            save_list = np.append(save_list, i)
+
+    save_list = np.unique(save_list)
+    return rects[save_list], np.delete(rects, save_list, axis=0)
 
 def center(rects, coords):
+    """
+    return a new set of rectangles that is placed in the
+    center of the dot
+    """
+
     rects = rects.copy()
     for i, rect in enumerate(rects):
         for cord in coords:
@@ -232,7 +258,7 @@ if __name__ == '__main__':
     #rp.display(image_path, rects)
 
     rects, _ = filter_by_size(rects, 20, 100)
-    zero_dots, _ = keep_n_dots(rects, coords, 0)
+    zero_dots, _ = keep_the_furthest(rects, coords)
     rects, _ = keep_one_dot(rects, coords, kids_allowed=True)
 
     #rp.display(image_path, rects, n=len(rects))
@@ -243,5 +269,5 @@ if __name__ == '__main__':
 
     #rects, _  = keep_the_smallest(rects, coords, n=1)
 
-    rp.display(image_path, rects, n=1)
+    rp.display(image_path, rects, n=len(rects))
     rp.display(image_path, zero_dots, n=len(rects))

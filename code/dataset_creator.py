@@ -18,7 +18,8 @@ def generate_sub_images(image_id, shape=(224, 224), display=False):
     img = cv2.imread(image.real_path)
 
     boxes, _ = filter_by_size(boxes, 20, 100)
-    boxes_bg, _ = keep_n_dots(boxes, coords, n=0)
+    #boxes_bg, _ = keep_n_dots(boxes, coords, n=0)
+    boxes_bg, _ = keep_the_furthest(boxes, coords)
     boxes_sl, _ = keep_one_dot(boxes, coords, kids_allowed=True)
     boxes_sl, _ = keep_the_closest(boxes_sl, coords, n=4, max_dist=0.35)
     boxes_sl, _ = keep_according_color(boxes_sl, coords, n=1)
