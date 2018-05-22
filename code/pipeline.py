@@ -7,6 +7,7 @@ from filter_box import filter_by_size, keep_one_dot, keep_the_closest
 from region_proposal import RegionProposal
 from config import *
 from tqdm import tqdm
+from image import GREEN
 
 import os
 
@@ -88,7 +89,7 @@ class Pipeline(object):
         no_of_lions = 0
         for coord in coords:
             _, _, dot_class = coord
-            if not dot_class == "GREEN":
+            if not dot_class == GREEN:
                 no_of_lions += 1
         return no_of_lions
 
@@ -147,14 +148,14 @@ class Pipeline(object):
         return mse
 
 if __name__ == "__main__":
-    #rp = RegionProposal()
-    #model = keras.models.load_model("../Model/2layers.mod")
-    #pipeline = Pipeline(model, overlapping_threshold=0.9)
-    #image_obj = Image(850, "TEST")
-    #positives = pipeline.evaluate_img(image_obj, (50, 50))
-    #rp.display(image_obj.real_path, np.vstack(positives), n=len(positives))
-
+    rp = RegionProposal()
     model = keras.models.load_model("../Model/2layers.mod")
-    pipeline = Pipeline(model, overlapping_threshold=0.3)
-    print(pipeline.mse("TEST"))
+    pipeline = Pipeline(model, overlapping_threshold=0.9)
+    image_obj = Image(944, "TEST")
+    positives = pipeline.evaluate_img(image_obj, (50, 50))
+    rp.display(image_obj.real_path, np.vstack(positives), n=len(positives))
+    print("Sealions %d, localized %d" % (image_obj.get_coordinates().shape[0], len(positives)))
 
+    #model = keras.models.load_model("../Model/2layers.mod")
+    #pipeline = Pipeline(model, overlapping_threshold=0.3)
+    #print(pipeline.mse("TEST"))
