@@ -20,7 +20,6 @@ def unison_shuffled_copies(a, b):
     p = np.random.permutation(len(a))
     return a[p], b[p]
 
-
 """
 X = np.load('X.npy')
 Y = genfromtxt('DS1.csv', delimiter =',').astype(np.float64)
