@@ -97,6 +97,7 @@ for i, layer in enumerate(model.layers):
 """
 ####THIS IS ONLY IF WE WANT TO PRETRAIN THE TOP LAYERS AND THEN FINE TUNE THE ALL LAYERS OF THE CNN,
 
+
 # compile
 sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9 , nesterov=True)
 model.compile(optimizer=sgd, loss='binary_crossentropy', metrics=['accuracy'])
@@ -106,7 +107,7 @@ model.compile(optimizer=sgd, loss='binary_crossentropy', metrics=['accuracy'])
 model.fit(x=X_train, y= Y_train, batch_size=256,
                     epochs=10,
                 
-                    validation_data=(X_test, Y_test))
+                    validation_data=(X_valid, Y_valid))
 
 # let's visualize layer names and layer indices to see how many layers
 # we should freeze:
