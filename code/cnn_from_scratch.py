@@ -73,12 +73,12 @@ model.compile(optimizer=sgd, loss='binary_crossentropy', metrics=['accuracy'])
 #model.fit_generator(X_train,Y_train)
 history = model.fit(x=X_train,y=Y_train, batch_size=256,
                     epochs=epochs,
-                    validation_data=(X_test, Y_test))
+                    validation_data=(X_valid, Y_valid))
 
-score = model.evaluate(X_test, Y_test, verbose=0)
+score = model.evaluate(X_valid, Y_valid, verbose=0)
 print(score)
-print('Test loss:', score[0])
-print('Test accuracy:', score[1])
+print('Validation loss:', score[0])
+print('Validation accuracy:', score[1])
 
 model.save('sealion_model_4_newdata.h5')
 
