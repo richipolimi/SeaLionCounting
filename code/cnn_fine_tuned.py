@@ -73,8 +73,6 @@ sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 
 base_model = VGG16(weights='imagenet', include_top=False, input_shape = (50,50,3))
 
-# add a global spatial average pooling layer
-#Do we really want this though? Because the VGG16 already has a pooling layer before this one.
 x = base_model.output
 #x = GlobalAveragePooling2D()(x)
 x = Flatten()(x)
@@ -89,7 +87,7 @@ predictions = (Dense(1, activation='sigmoid'))(x)
 # this is the model we will train
 model = Model(inputs=base_model.input, outputs=predictions)
 
-#Our cnn is pretrained, we don't want to train it again (for now).
+#Our cnn is pretrained, we don't want to train everything again (for now).
 for layer in model.layers[:10]:
     layer.trainable = False
 
