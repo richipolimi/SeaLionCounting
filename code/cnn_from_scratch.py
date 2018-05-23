@@ -51,7 +51,6 @@ sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 
 model = Sequential()
 
-
 model.add(Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(width,width,3)))
 model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
 model.add(MaxPooling2D(pool_size=(2,2),data_format="channels_first"))
