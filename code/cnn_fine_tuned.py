@@ -157,7 +157,7 @@ for i in range(50):
     history = modelold.fit(x=X_train,y=Y_train, batch_size=256,
                         epochs=epochs,
                         validation_data=((X_valid, Y_valid)))
-    
+    #Change to X_test, Y_test if we are evlaluating for test results because it's the best model
     score = modelold.evaluate(X_valid, Y_valid, verbose=0)
     print(score)
     print('Validation loss:', score[0])
