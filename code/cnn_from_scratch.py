@@ -74,7 +74,7 @@ model.compile(optimizer=sgd, loss='binary_crossentropy', metrics=['accuracy'])
 history = model.fit(x=X_train,y=Y_train, batch_size=256,
                     epochs=epochs,
                     validation_data=(X_valid, Y_valid))
-
+#Change to X_test, Y_test if we are evlaluating for test results because it's the best model
 score = model.evaluate(X_valid, Y_valid, verbose=0)
 print(score)
 print('Validation loss:', score[0])
